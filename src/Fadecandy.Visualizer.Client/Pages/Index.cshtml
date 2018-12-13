@@ -1,0 +1,18 @@
+﻿@page "/"
+
+<h1>Fadecandy Visualizer</h1>
+
+<div id="panel">
+</div>
+
+<button value="submit" onclick="@RunDemo">Connect</button>
+
+@*<SurveyPrompt Title="How is Blazor working for you?" />*@
+
+@functions  { 
+    public async Task RunDemo()
+    {
+        await JSRuntime.Current.InvokeAsync<object>(
+            "demoPanel.listen");
+    }
+}
