@@ -2,17 +2,24 @@
 
 <h1>Fadecandy Visualizer</h1>
 
-<div id="panel">
+<div id="@elementId">
 </div>
 
-<button value="submit" onclick="@RunDemo">Connect</button>
+<button value="submit" onclick="@Listen">Connect</button>
 
 @*<SurveyPrompt Title="How is Blazor working for you?" />*@
 
 @functions  { 
-    public async Task RunDemo()
+
+    private string elementId = "panel";
+
+    protected override async Task OnAfterRenderAsync()
     {
-        await JSRuntime.Current.InvokeAsync<object>(
-            "demoPanel.listen");
+        await Shared.JSInterop.Panel.Configure(elementId, 285, 200);
+    }
+
+    public async Task Listen()
+    {
+        await Shared.JSInterop.Panel.Listen();
     }
 }

@@ -11,10 +11,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" />
     <PackageReference Include="Serilog" Version="2.7.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
-    <PackageReference Include="Websocket.Relay" Version="0.1.106" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\websocket-relay\src\Websocket.Relay\Websocket.Relay.csproj" />
     <ProjectReference Include="..\Fadecandy.Visualizer.Client\Fadecandy.Visualizer.Client.csproj" />
     <ProjectReference Include="..\Fadecandy.Visualizer.Shared\Fadecandy.Visualizer.Shared.csproj" />
   </ItemGroup>
