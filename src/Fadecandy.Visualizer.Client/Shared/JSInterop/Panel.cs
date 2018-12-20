@@ -1,5 +1,4 @@
 ﻿using Microsoft.JSInterop;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,26 +6,8 @@ namespace Fadecandy.Visualizer.Client.Shared.JSInterop
 {
     public static class Panel
     {
-        public static DateTime LastReceivedOn { get; private set; }
-
-        public static double MaxFps { get; private set; }
-
-        public static bool ShouldThrottle => DateTime.UtcNow.Subtract(LastReceivedOn).TotalMilliseconds < (1d / MaxFps);
-
-        static Panel()
+        public static async Task Listen()
         {
-            MaxFps = 60;
-        }
-
-        public static async Task Listen(double maxFps = 60)
-        {
-            if (maxFps <= 0d)
-            {
-                throw new ArgumentException("Max frames per second must be greater than 0");
-            }
-
-            MaxFps = maxFps;
-
             await JSRuntime.Current.InvokeAsync<object>(
                 "fadecandyVisualiser.listen");
         }
@@ -48,20 +29,15 @@ namespace Fadecandy.Visualizer.Client.Shared.JSInterop
         [JSInvokable]
         public static async Task OnDataReceived(string json)
         {
-            if (!ShouldThrottle)
-            {
-                // TODO: Json Deserialize 
-                var data = json
-                    .Replace("[", string.Empty)
-                    .Replace("]", string.Empty)
-                    .Split(',')
-                    .Select(d => int.Parse(d))
-                    .ToArray();
+            // TODO: Json Deserialize 
+            var data = json
+                .Replace("[", string.Empty)
+                .Replace("]", string.Empty)
+                .Split(',')
+                .Select(d => int.Parse(d))
+                .ToArray();
 
-                await Update(data);
-            }
-
-            LastReceivedOn = DateTime.Now;
+            await Update(data);
         }
     }
 }

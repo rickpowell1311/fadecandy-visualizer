@@ -11,7 +11,7 @@ namespace Fadecandy.Visualizer.Server
         public static void Main(string[] args)
         {
             // Run a websocket server
-            var websocketRelay = Relay.Load(new SerilogWebsocketLogger());
+            var websocketRelay = Relay.Load(new SerilogWebsocketLogger(), RelayConfiguration.Default);
             websocketRelay.Run(7891, RunMode.Test);
 
             BuildWebHost(args).Run();
