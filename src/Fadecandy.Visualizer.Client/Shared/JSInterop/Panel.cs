@@ -12,12 +12,12 @@ namespace Fadecandy.Visualizer.Client.Shared.JSInterop
                 "fadecandyVisualiser.listen");
         }
 
-        public static async Task Configure(string elementId, int height, int width)
+        public static async Task Configure(string elementId, int height, int width, int pixelsX, int pixelsY)
         {
             // TODO: Dynamic number of pixels
 
             await JSRuntime.Current.InvokeAsync<object>(
-                "fadecandyVisualiser.configure", elementId, height, width, 5);
+                "fadecandyVisualiser.configure", elementId, height, width, pixelsX, pixelsY);
         }
 
         public static async Task Update(int[] data)

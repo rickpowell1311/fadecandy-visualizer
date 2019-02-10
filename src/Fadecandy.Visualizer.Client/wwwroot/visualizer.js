@@ -8,27 +8,37 @@
         alert(message);
     },
 
-    configure: function (elementId, width, height, numberOfPixels) {
+    configure: function (elementId, width, height, pixelsX, pixelsY) {
 
         if (this.isConfigured) {
             return;
         }
 
         var elem = document.getElementById(elementId);
-        var params = { width: width, height: height };
+        var params = { width: pixelsX * 30, height: pixelsY *30 };
         this.two = new Two(params).appendTo(elem);
 
         // two has convenience methods to create shapes.
         this.circles = [];
 
-        for (var i = 0; i < numberOfPixels; i++) {
+        for (var i = 1; i <= pixelsY; i++) {
+            for (var j = 1; j <= pixelsX; j++) {
+                circle = two.makeCircle(j * 25, i * 25, 12);
+                circle.fill = 'rgb(0, 0, 0)';
+                this.circles.push(circle);
+                circle.noStroke();
+            }
+        }
+
+
+        //for (var i = 0; i < numberOfPixels; i++) {
 
             // TODO: Calculate size
-            circle = two.makeCircle((i + 1) * 25, 24, 12);
-            circle.fill = 'rgb(0, 0, 0)';
-            this.circles.push(circle);
-            circle.noStroke();
-        }
+            //circle = two.makeCircle((i + 1) * 25, 24, 12);
+            //circle.fill = 'rgb(0, 0, 0)';
+            //this.circles.push(circle);
+            //circle.noStroke();
+        //}
 
         this.isConfigured = true;
         this.two.update();
@@ -44,8 +54,12 @@
             length = data.length;
         }
 
-        for (var i = 0; i < length * 3; i = i + 3) {
-            this.circles[i/3].fill = 'rgb(' + data[i] + ', ' + data[i + 1] + ', ' + data[i + 2] + ')';
+        for (var i = 0; i < this.circles.length; i++) {
+            try {
+                this.circles[i].fill = 'rgb(' + data[(i*3)+4] + ', ' + data[(i*3) + 5] + ', ' + data[(i*3)+ 6] + ')';
+            } catch(err) {
+                alert('bummer');
+            }
         }
 
         this.two.update();

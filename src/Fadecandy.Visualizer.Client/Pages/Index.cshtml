@@ -5,17 +5,31 @@
 <div id="@elementId">
 </div>
 
+<input type="number" bind="@pixelsX" placeholder="Pixels X" />
+<span>by</span>
+<input type="number" bind="@pixelsY" placeholder="Pixels Y" />
+
+<button type="submit" onclick="@CreateNew">Create</button>
+
 <button value="submit" onclick="@Listen">Connect</button>
+
 
 @*<SurveyPrompt Title="How is Blazor working for you?" />*@
 
-@functions  { 
+@functions  {
 
     private string elementId = "panel";
+    private int pixelsX { get; set; } = 0;
+    private int pixelsY { get; set; } = 0;
+
+    public async Task CreateNew()
+    {
+        await Shared.JSInterop.Panel.Configure(elementId, 285, 200, pixelsX, pixelsY);
+    }
 
     protected override async Task OnAfterRenderAsync()
     {
-        await Shared.JSInterop.Panel.Configure(elementId, 285, 200);
+        //await Shared.JSInterop.Panel.Configure(elementId, 285, 200, numberOfPixels);
     }
 
     public async Task Listen()
